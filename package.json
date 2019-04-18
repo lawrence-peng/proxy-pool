@@ -1,7 +1,7 @@
 {
-  "name": "proxy-pool",
+  "name": "web-proxy-pool",
   "version": "0.0.1",
-  "description": "proxy pool",
+  "description": "http proxy pool",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
@@ -11,6 +11,10 @@
     "test": "npm run prepare && set DEBUG=* && mocha --reporter list",
     "clean": "rm -rf dist",
     "lint": "tslint --project tslint.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com:lawrence-peng/proxy-pool.git"
   },
   "keywords": [
     "http proxy",
