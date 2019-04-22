@@ -1,6 +1,5 @@
-import HttpProxyPool from './core/HttpProxyPool';
-import ProxySupplier from './core/ProxySupplier';
-import ProxyInfo from './core/ProxyInfo';
-module.exports = {
-  HttpProxyPool, ProxySupplier, ProxyInfo,
-};
+'use strict';
+
+export { default as HttpProxyPool } from './core/HttpProxyPool';
+export { default as ProxySupplier } from './core/ProxySupplier';
+export { default as ProxyInfo } from './core/ProxyInfo';

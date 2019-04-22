@@ -6,35 +6,35 @@ import Base from './Base';
 export default class DefaultProxyValidator extends Base
   implements IProxyValidator {
   private readonly targetUrl: string;
-  constructor(targetUrl: string = 'https://www.taobao.com') {
+  constructor(targetUrl: string = 'http://www.baidu.com') {
     super();
     this.targetUrl = targetUrl;
   }
 
-  // private buildAuthHeader(user: string, pass: string): string {
-  //   return `Basic ${new Buffer(`${user}:${pass}`).toString('base64')}`;
-  // }
+  private buildAuthHeader(user: string, pass: string): string {
+    return `Basic ${new Buffer(`${user}:${pass}`).toString('base64')}`;
+  }
 
   async isAvailable(proxy: ProxyInfo): Promise<boolean> {
     const testProxy = {
       ipAddress: proxy.host,
       port: proxy.port,
       protocols: [ 'http' ],
+      auth: {},
     };
     const options = {
       testUrl: this.targetUrl,
       requestOptions: {
         strictSSL: false,
-        proxyOptions: {
+        agentOptions: {
           rejectUnauthorized: false,
         },
         timeout: 100,
-        auth: {},
       },
     };
 
     if (proxy.username && proxy.password) {
-      options.requestOptions.auth = { user: proxy.username, pass: proxy.password };
+      testProxy.auth = this.buildAuthHeader(proxy.username, proxy.password);
     }
     this.debug('testProtocol testProxy', testProxy);
     this.debug('testProtocol requestOptions', options);

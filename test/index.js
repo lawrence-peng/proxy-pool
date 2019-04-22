@@ -1,6 +1,6 @@
 "use strict";
 const expect = require("chai").expect;
-const HttpProxyPool = require("../dist/index");
+const { HttpProxyPool } = require("../dist/index");
 const KaidiProxySupplier = require("./supplier/KaidiProxySupplier");
 
 describe("HttpProxyPool function getProxy", () => {
