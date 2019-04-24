@@ -69,9 +69,9 @@ export default class ProxySupplierScheduler extends Base {
             this.emit('pool_enqueue', proxy);
           }
         }
-        this.debug('remote proxy:%s,valid proxy:%s', proxies.size, validNum);
+        // this.debug('remote proxy:%s,valid proxy:%s', proxies.size, validNum);
       }
-      this.debug('poolSize', this.poolStoreData.poolSize);
+      // this.debug('poolSize', this.poolStoreData.poolSize);
       await CommonUtil.sleep(this.fetchInterval);
     }
   }

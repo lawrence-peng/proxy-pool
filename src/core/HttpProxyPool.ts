@@ -74,6 +74,7 @@ export default class HttpProxyPool extends Base implements IHttpProxyPool {
         break;
       }
     }
+    this.debug('current pool size', this.poolStoreData.poolSize);
     return proxy;
   }
 
