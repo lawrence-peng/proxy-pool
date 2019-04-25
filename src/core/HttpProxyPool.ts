@@ -51,6 +51,11 @@ export default class HttpProxyPool extends Base implements IHttpProxyPool {
 
     this.proxySupplierScheduler.start();
   }
+
+  getPoolStoreData(): IPoolStoreData {
+    return this.poolStoreData;
+  }
+
   async getProxy(): Promise<ProxyInfo> {
     for (let i = 0; i < 3600; i += 1) {
       const proxy = this.getFirstAvaliableProxy();
@@ -68,7 +73,8 @@ export default class HttpProxyPool extends Base implements IHttpProxyPool {
     while (proxy) {
       if (proxy.expireTime && proxy.expireTime - currentUnixTimeNumber < 0) {
         proxy = this.poolStoreData.dequeue();
-      } else if (currentUnixTimeNumber - proxy.createTime >= 1000 * 180) {  // 抛弃超过三分钟的代理IP
+      } else if (currentUnixTimeNumber - proxy.createTime >= 1000 * 180) {
+        // 抛弃超过三分钟的代理IP
         proxy = this.poolStoreData.dequeue();
       } else {
         break;
@@ -95,5 +101,11 @@ export default class HttpProxyPool extends Base implements IHttpProxyPool {
       return;
     }
     this.poolStoreData.enqueue(proxy);
+  }
+
+  dispose() {
+    if (this.proxySupplierScheduler) {
+      this.proxySupplierScheduler.dispose();
+    }
   }
 }

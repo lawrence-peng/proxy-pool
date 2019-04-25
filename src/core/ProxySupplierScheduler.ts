@@ -1,4 +1,3 @@
-import CommonUtil from '../util/CommonUtil';
 import IProxyValidator from './IProxyValidator';
 import IProxySupplier from './IProxySupplier';
 import IDuplicateRemover from './IDuplicateRemover';
@@ -9,6 +8,7 @@ import Base from './Base';
 export default class ProxySupplierScheduler extends Base {
   private _poolThreshold: number = 10;
   private _fetchInterval = 10000;
+  private interval: NodeJS.Timeout;
 
   /**
    *
@@ -35,6 +35,9 @@ export default class ProxySupplierScheduler extends Base {
     if (proxyValidator == null) {
       throw new ProxyError('proxyValidator is null');
     }
+    setInterval(() => {
+      console.log('poolStoreData Count', this.poolStoreData.poolSize);
+  }, 1000 * 60 * 15);
   }
 
   public get poolThreshold(): number {
@@ -54,8 +57,7 @@ export default class ProxySupplierScheduler extends Base {
    * start
    */
   public async start(): Promise<void> {
-    // tslint:disable-next-line:no-constant-condition
-    while (true) {
+    const fn = async () => {
       if (this.poolStoreData.poolSize < this.poolThreshold) {
         const proxies = await this.proxySupplier.getProxies();
         let validNum = 0;
@@ -69,10 +71,16 @@ export default class ProxySupplierScheduler extends Base {
             this.emit('pool_enqueue', proxy);
           }
         }
-        // this.debug('remote proxy:%s,valid proxy:%s', proxies.size, validNum);
+        this.debug('remote proxy:%s,valid proxy:%s', proxies.size, validNum);
       }
-      // this.debug('poolSize', this.poolStoreData.poolSize);
-      await CommonUtil.sleep(this.fetchInterval);
+    };
+    this.interval = setInterval(fn, this.fetchInterval);
+    await fn();
+  }
+
+  dispose() {
+    if (this.interval) {
+      clearInterval(this.interval);
     }
   }
 }

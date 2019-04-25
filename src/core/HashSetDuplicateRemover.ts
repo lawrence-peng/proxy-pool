@@ -2,6 +2,11 @@ import IDuplicateRemover from './IDuplicateRemover';
 
 export default class HashSetDuplicateRemover implements IDuplicateRemover {
   proxySet: Set<string> = new Set<string>();
+  constructor() {
+    setInterval(() => {
+        console.log('HashSetDuplicateRemover Count', this.proxySet.size);
+    }, 1000 * 60 * 15);
+  }
   get totalProxyCount() {
     return this.proxySet.size;
   }

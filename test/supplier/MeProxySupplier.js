@@ -3,7 +3,7 @@ const ProxyInfo = require("../../dist/core/ProxyInfo").default;
 function randomNum(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 }
-class KaidiProxySupplier extends ProxySupplier {
+class MeProxySupplier extends ProxySupplier {
   getRemoteProxy() {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
@@ -23,4 +23,4 @@ class KaidiProxySupplier extends ProxySupplier {
     });
   }
 }
-module.exports = KaidiProxySupplier;
+module.exports = MeProxySupplier;

@@ -20,6 +20,7 @@ export default abstract class ProxySupplier extends Base implements IProxySuppli
       }
     }
     const map = new Map<string, ProxyInfo>();
+    result = [].concat.apply([], result as any); // result maybe is two-dimensional array
     for (const proxy of result) {
       if (!proxy)continue;
       // const { ip, port, username, password, expire_time } = item;
