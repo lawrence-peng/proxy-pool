@@ -1,6 +1,6 @@
 {
   "name": "web-proxy-pool",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "http proxy pool",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
