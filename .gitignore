@@ -2,3 +2,4 @@
 /dist/
 *.log
 /test/MyProxySupplier.js
+package-lock.json
