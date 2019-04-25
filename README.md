@@ -1,4 +1,5 @@
 # proxy-pool
+[![npm version](https://img.shields.io/npm/v/web-proxy-pool.svg?style=flat-square)](https://www.npmjs.org/package/web-proxy-pool)
 
 proxy-pool is http ip proxy pool,can get ip proxy info ,and return to pool
 
