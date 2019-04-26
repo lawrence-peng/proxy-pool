@@ -6,10 +6,12 @@ import Base from './Base';
 
 export default class DefaultProxyValidator extends Base
   implements IProxyValidator {
-  private readonly targetUrls: any[];
-  constructor(targetUrls: any[] = [ 'https://ssl.captcha.qq.com/TCaptcha.js' ]) {
+
+  verifyTimeout: number = 5000; // 5 second
+  targetUrls: any[] = [ 'https://ssl.captcha.qq.com/TCaptcha.js' ];
+
+  constructor() {
     super();
-    this.targetUrls = targetUrls;
   }
   async isAvailable(proxy: ProxyInfo): Promise<boolean> {
     let agent = null;
@@ -25,7 +27,7 @@ export default class DefaultProxyValidator extends Base
       for (const targetUrl of this.targetUrls) {
         const options = {
           url: targetUrl,
-          timeout: 3000, // 3 second
+          timeout: this.verifyTimeout, // 3 second
           httpsAgent: agent,
         };
         ret = await this.testProxyPromise(options);
@@ -42,7 +44,7 @@ export default class DefaultProxyValidator extends Base
     return new Promise((resolve, reject) => {
       axios(options)
         .then(resp => {
-          // this.debug('testProxyPromise:%s %s', resp.status, resp.statusText);
+          this.debug('testProxyPromise:%s %s', resp.status, resp.statusText);
           resolve(resp.status === 200);
         })
         .catch(error => reject(error));

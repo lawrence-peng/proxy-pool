@@ -34,6 +34,12 @@ export default class HttpProxyPool extends Base implements IHttpProxyPool {
     if (opts && opts.proxyValidator != null) {
       this.proxyValidator = opts.proxyValidator;
     }
+    if (opts && opts.proxyValidatorTimeout) {
+      this.proxyValidator.verifyTimeout = opts.proxyValidatorTimeout;
+    }
+    if (opts && opts.proxyValidatorTimeout) {
+      this.proxyValidator.targetUrls = opts.proxyValidatorTargetUrls;
+    }
 
     this.proxySupplierScheduler = new ProxySupplierScheduler(
       proxySupplier,
@@ -58,6 +64,7 @@ export default class HttpProxyPool extends Base implements IHttpProxyPool {
 
   async getProxy(): Promise<ProxyInfo> {
     for (let i = 0; i < 3600; i += 1) {
+
       const proxy = this.getFirstAvaliableProxy();
       if (proxy != null) {
         return proxy;
@@ -80,7 +87,6 @@ export default class HttpProxyPool extends Base implements IHttpProxyPool {
         break;
       }
     }
-    this.debug('current pool size', this.poolStoreData.poolSize);
     return proxy;
   }
 
